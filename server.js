@@ -1,40 +1,48 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mysql = require('mysql2');
 const cors = require('cors');
-const { Pool } = require('pg');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 3000; // You can change this port if needed
 
 // Middleware
-app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// PostgreSQL connection pool
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL, // PostgreSQL connection string
-    ssl: {
-        rejectUnauthorized: false
-    }
+// MySQL Connection
+const connection = mysql.createConnection({
+    host: 'localhost', // Your MySQL host
+    user: 'Host', // Your MySQL user
+    password: 'Creditafinance@123', // Your MySQL password
+    database: 'loan_application_database', // Your database name
 });
 
-// Route to handle form submission
-app.post('/apply', async (req, res) => {
-    const { name, email, phone, location, loan_amount, loan_type, employment_type, salary, employer, emi, purpose } = req.body;
-
-    try {
-        const result = await pool.query(
-            'INSERT INTO loan_applications (name, email, phone, location, loan_amount, loan_type, employment_type, salary, employer, emi, purpose) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
-            [name, email, phone, location, loan_amount, loan_type, employment_type, salary, employer, emi, purpose]
-        );
-        res.status(200).json({ success: true, applicationId: result.rows[0].id });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: 'Error submitting application' });
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to MySQL:', err);
+        return;
     }
+    console.log('Connected to MySQL');
 });
 
-// Start the server
+// API Endpoint for Loan Application
+app.post('/apply', (req, res) => {
+    const loanApplication = req.body;
+
+    const query = 'INSERT INTO loan_applications SET ?';
+    connection.query(query, loanApplication, (error, results) => {
+        if (error) {
+            console.error('Error inserting data:', error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.status(201).send('Loan application submitted successfully');
+    });
+});
+
+// Start the Server
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
