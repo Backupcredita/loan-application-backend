@@ -13,10 +13,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // MySQL Connection
 const connection = mysql.createConnection({
-    host: 'localhost', // Your MySQL host
-    user: 'Host', // Your MySQL user
-    password: 'Creditafinance@123', // Your MySQL password
-    database: 'loan_application_database', // Your database name
+    host: 'mysql-loan-application-backupcredita-5ebc.g.aivencloud.com', // Your MySQL host
+    user: 'avnadmin', // Your MySQL user
+    password: 'AVNS_imXagB_IpbsjzLVeOfc', // Your MySQL password
+    database: 'defaultdb', // Your database name
 });
 
 connection.connect((err) => {
@@ -44,5 +44,5 @@ app.post('/apply', (req, res) => {
 
 // Start the Server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${19594}`);
 });
