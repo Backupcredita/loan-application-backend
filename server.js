@@ -44,5 +44,5 @@ app.post('/apply', (req, res) => {
 
 // Start the Server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${19594}`);
+    console.log(`Server is running on https://loan-application-backend-oaox.onrender.com:${19594}`);
 });
