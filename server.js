@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
     host: 'mysql-loan-application-backupcredita-5ebc.g.aivencloud.com', // Your MySQL host
     user: 'avnadmin', // Your MySQL user
     password: 'AVNS_imXagB_IpbsjzLVeOfc', // Your MySQL password
-    database: 'defaultdb', // Your database name
+    database: 'loan_application_database', // Your database name
     connectTimeout: 50000
 });
 
