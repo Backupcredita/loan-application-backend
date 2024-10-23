@@ -17,7 +17,7 @@ const connection = mysql.createConnection({
     user: 'avnadmin', // Your MySQL user
     password: 'AVNS_imXagB_IpbsjzLVeOfc', // Your MySQL password
     database: 'defaultdb', // Your database name
-    connectTimeout: 100000
+    connectTimeout: 50000
 });
 
 connection.connect((err) => {
